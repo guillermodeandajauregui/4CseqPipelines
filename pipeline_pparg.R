@@ -1,7 +1,7 @@
 library(FourCSeq)
 library(NOISeq)
 library(BSgenome.Mmusculus.UCSC.mm9)
-
+library(tidyverse)
 
 metadata <- list(projectPath = "DataPPARG",  # directory to store results
                  fragmentDir = "re_fragments", # directory to store restriction fragment info
@@ -147,7 +147,13 @@ writeTrackFiles(object = fcf,
                 removeZeros = FALSE)
 
 names(assays(fcf))
+###
 
+fcf <- normalizeRPM(object = fcf, 
+                    assay = "counts", 
+                    normalized = "rpm")
+
+###
 writeTrackFiles(object = fcf, 
                 assay = "fit", 
                 folder = "tracks", 
