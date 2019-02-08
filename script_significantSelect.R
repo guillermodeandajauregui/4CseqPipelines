@@ -1,6 +1,6 @@
 #escribir bedGraphs para datos con zScore
 
-my_trackPath <- "tracks_minus0", 
+my_trackPath <- "tracks_minus0" 
 
 writeTrackFiles(object = fcf, 
                 assay = "zScore", 
@@ -13,7 +13,7 @@ PATH_TO_DATA <- paste0(metadata(fcf)$projectPath, my_trackPath)
 
 my_samples <- list.files(path = PATH_TO_DATA, pattern = ".bedGraph")
 
-
+#read all, write clean bedgraphs 
 lapply(X = my_samples, FUN = function(i){
   my_sample  <- i
   my_path    <- paste0(PATH_TO_DATA, i)
@@ -23,20 +23,3 @@ lapply(X = my_samples, FUN = function(i){
                      file = paste0(PATH_TO_DATA, "clean_", my_sample, ".clean.bedGraph")
   )
 })
-
-my_sample = "testdata_hf_zt6_1"
-my_path   = paste0("DataPPARG/tracks_minus0/zScore_", my_sample, ".bedGraph")
-testing <-data.table::fread(input = my_path)
-testing
-
-
-
-data.table::fwrite(x = testing[my_logical], sep = "\t", 
-                   file = paste0("DataPPARG/tracks_minus0/zScore_Clean_", my_sample, ".clean.bedGraph")
-                   )
-
-
-my_sample = "testdata_hf_zt6_1"
-my_path   = paste0("DataPPARG/tracks/counts_", my_sample, ".bedGraph")
-testing <-data.table::fread(input = my_path)
-testing
