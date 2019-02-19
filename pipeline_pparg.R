@@ -52,19 +52,19 @@ writeTrackFiles(fc, format='bedGraph')
 ###
 fc <- smoothCounts(fc, assay = "counts", binWidth = 5)
 
-plotScatter(fc[, c("testdata_hf_zt6_1", 
-                   "testdata_hf_zt6_2")], 
-            xlab= "hfzt6_1", 
-            ylab="hfzt6_2", 
-            asp = 1)
+# plotScatter(fc[, c("testdata_hf_zt6_1", 
+#                    "testdata_hf_zt6_2")], 
+#             xlab= "hfzt6_1", 
+#             ylab="hfzt6_2", 
+#             asp = 1)
 
 fc@assays$data$counts[, c("testdata_hf_zt6_1",
                           "testdata_hf_zt6_2")
                       ]
 
-qqplot(x = fc@assays$data$counts[,"testdata_hf_zt6_1"], 
-       y = fc@assays$data$counts[,"testdata_hf_zt6_2"]
-       )
+# qqplot(x = fc@assays$data$counts[,"testdata_hf_zt6_1"], 
+#        y = fc@assays$data$counts[,"testdata_hf_zt6_2"]
+#        )
 
 ########
 
@@ -81,13 +81,13 @@ my_samples <- colnames(zScore)
 names(my_samples) <- colnames(zScore)
 
 ####
-my_histograms <- lapply(X = my_samples, FUN = function(i){
-  p <- qplot(zScore[,i], 
-             geom="histogram", 
-             binwidth = 0.05, 
-             xlab = i) 
-})
-sapply(my_histograms, plot)
+# my_histograms <- lapply(X = my_samples, FUN = function(i){
+#   p <- qplot(zScore[,i], 
+#              geom="histogram", 
+#              binwidth = 0.05, 
+#              xlab = i) 
+# })
+# sapply(my_histograms, plot)
 ####
 
 # lapply(X = my_samples, FUN = function(i){
@@ -98,12 +98,12 @@ sapply(my_histograms, plot)
 #   abline(a=0, b=1)
 #   plot(p)
 # })
-for(i in my_samples){
-  qqnorm(zScore[,i], 
-         main = paste0("Normal Q-Q Plot - ",  i)
-  )
-  abline(a=0, b=1)
-}
+# for(i in my_samples){
+#   qqnorm(zScore[,i], 
+#          main = paste0("Normal Q-Q Plot - ",  i)
+#   )
+#   abline(a=0, b=1)
+# }
 
 ###
 fcf <- addPeaks(fcf, 
@@ -111,61 +111,61 @@ fcf <- addPeaks(fcf,
                 fdrThresh = 0.05
                 )
 
-for(i in seq_along(my_samples)){
-  plotFits(fcf[,i], main=my_samples[i])
-}
+# for(i in seq_along(my_samples)){
+#   plotFits(fcf[,i], main=my_samples[i])
+# }
 ###
-plotZScores(fcf, 
-            cols = NULL, 
-            plotWindows = c(1e+05, 1e+06), 
-            controls = NULL, 
-            textsize = 20, 
-            txdb = TxDb.Mmusculus.UCSC.mm9.knownGene, 
-            plotSingle = FALSE
-            )
+# plotZScores(fcf, 
+#             cols = NULL, 
+#             plotWindows = c(1e+05, 1e+06), 
+#             controls = NULL, 
+#             textsize = 20, 
+#             txdb = TxDb.Mmusculus.UCSC.mm9.knownGene, 
+#             plotSingle = FALSE
+#             )
 
 ####
-my_rows <- as.data.frame(rowRanges(fcf)) %>% 
-  dplyr::select(seqnames, start, end, mid)
+# my_rows <- as.data.frame(rowRanges(fcf)) %>% 
+#   dplyr::select(seqnames, start, end, mid)
+# 
+# my_trafo <- assay(fcf, "trafo") 
+# my_peaks <- assay(fcf, "peaks") 
+# 
+# my_trafo <- cbind(my_rows, my_trafo)
+# my_peaks <- cbind(my_rows, my_peaks)
+# 
+# writeTrackFiles(object = fcf, 
+#                 assay = "trafo", 
+#                 folder = "tracks", 
+#                 format = "bw", 
+#                 removeZeros = FALSE)
+# 
+# writeTrackFiles(object = fcf, 
+#                 assay = "trafo", 
+#                 folder = "tracks", 
+#                 format = "bedGraph", 
+#                 removeZeros = FALSE)
+# 
+# names(assays(fcf))
+# ###
+# 
+# fcf <- normalizeRPM(object = fcf, 
+#                     assay = "counts", 
+#                     normalized = "rpm")
+# 
+# ###
+# writeTrackFiles(object = fcf, 
+#                 assay = "fit", 
+#                 folder = "tracks", 
+#                 format = "bedGraph", 
+#                 removeZeros = FALSE)
+# 
+# writeTrackFiles(object = fcf, 
+#                 assay = "zScore", 
+#                 folder = "tracks", 
+#                 format = "bedGraph", 
+#                 removeZeros = FALSE)
+# 
 
-my_trafo <- assay(fcf, "trafo") 
-my_peaks <- assay(fcf, "peaks") 
-
-my_trafo <- cbind(my_rows, my_trafo)
-my_peaks <- cbind(my_rows, my_peaks)
-
-writeTrackFiles(object = fcf, 
-                assay = "trafo", 
-                folder = "tracks", 
-                format = "bw", 
-                removeZeros = FALSE)
-
-writeTrackFiles(object = fcf, 
-                assay = "trafo", 
-                folder = "tracks", 
-                format = "bedGraph", 
-                removeZeros = FALSE)
-
-names(assays(fcf))
 ###
-
-fcf <- normalizeRPM(object = fcf, 
-                    assay = "counts", 
-                    normalized = "rpm")
-
-###
-writeTrackFiles(object = fcf, 
-                assay = "fit", 
-                folder = "tracks", 
-                format = "bedGraph", 
-                removeZeros = FALSE)
-
-writeTrackFiles(object = fcf, 
-                assay = "zScore", 
-                folder = "tracks", 
-                format = "bedGraph", 
-                removeZeros = FALSE)
-
-
-
 
